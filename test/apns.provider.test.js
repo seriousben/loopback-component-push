@@ -24,17 +24,21 @@ describe('APNS provider', function() {
     it('sends Notification as an APN message', function(done) {
       givenProviderWithConfig();
 
-      var notification = aNotification({ aKey: 'a-value' });
+      var notification = aNotification({
+        aKey: 'a-value'
+      });
       provider.pushNotification(notification, aDeviceToken);
 
-      var apnArgs =  mockery.firstPushNotificationArgs();
+      var apnArgs = mockery.firstPushNotificationArgs();
 
       var note = apnArgs[0];
       expect(note.expiry, 'expiry').to.equal(0);
       expect(note.alert, 'alert').to.equal(undefined);
       expect(note.badge, 'badge').to.equal(undefined);
       expect(note.sound, 'sound').to.equal(undefined);
-      expect(note.payload, 'payload').to.deep.equal({ aKey: 'a-value' });
+      expect(note.payload, 'payload').to.deep.equal({
+        aKey: 'a-value'
+      });
 
       expect(apnArgs[1]).to.equal(aDeviceToken);
       done();
@@ -51,7 +55,7 @@ describe('APNS provider', function() {
       });
       provider.pushNotification(notification, aDeviceToken);
 
-      var apnArgs =  mockery.firstPushNotificationArgs();
+      var apnArgs = mockery.firstPushNotificationArgs();
 
       var note = apnArgs[0];
       var payload = note.toJSON();
@@ -64,7 +68,11 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
-      givenProviderWithConfig({ apns: { feedbackOptions: {}}});
+      givenProviderWithConfig({
+        apns: {
+          feedbackOptions: {}
+        }
+      });
       var eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
 
@@ -78,7 +86,9 @@ describe('APNS provider', function() {
     it('converts expirationInterval to APNS expiry', function() {
       givenProviderWithConfig();
 
-      var notification = aNotification({ expirationInterval: 1 /* second */});
+      var notification = aNotification({
+        expirationInterval: 1 /* second */
+      });
       provider.pushNotification(notification, aDeviceToken);
 
       var note = mockery.firstPushNotificationArgs()[0];
@@ -89,7 +99,7 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
-        expirationTime: new Date(this.clock.now + 1000 /* 1 second */)
+        expirationTime: new Date(this.clock.now + 1000 /* 1 second */ )
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -119,9 +129,9 @@ describe('APNS provider', function() {
     it('emits "error" event when certData is invalid', function(done) {
       givenProviderWithConfig({
         apns: {
+          certData: 'invalid-data',
           pushOptions: {
             gateway: '127.0.0.1',
-            certData: 'invalid-data'
           }
         }
       });
@@ -143,10 +153,10 @@ describe('APNS provider', function() {
     it('emits "error" when gateway cannot be reached', function(done) {
       givenProviderWithConfig({
         apns: {
+          certData: objectMother.apnsDevCert(),
+          keyData: objectMother.apnsDevKey(),
           pushOptions: {
             gateway: '127.0.0.1',
-            certData: objectMother.apnsDevCert(),
-            keyData: objectMother.apnsDevKey()
           }
         }
       });
@@ -180,13 +190,13 @@ describe('APNS provider', function() {
         }
       });
       expect(provider._pushOptions).to.deep.equal({
-        certData: objectMother.apnsDevCert(),
-        keyData: objectMother.apnsDevKey(),
+        cert: objectMother.apnsDevCert(),
+        key: objectMother.apnsDevKey(),
         gateway: '127.0.0.1'
       });
       expect(provider._feedbackOptions).to.deep.equal({
-        certData: objectMother.apnsDevCert(),
-        keyData: objectMother.apnsDevKey(),
+        cert: objectMother.apnsDevCert(),
+        key: objectMother.apnsDevKey(),
         gateway: 'feedback.sandbox.push.apple.com'
       });
       done();
@@ -240,8 +250,7 @@ describe('APNS provider', function() {
       givenProviderWithConfig({
         apns: {
           production: true,
-          pushOptions: {
-          },
+          pushOptions: {},
           feedbackOptions: {
             interval: 300
           }
