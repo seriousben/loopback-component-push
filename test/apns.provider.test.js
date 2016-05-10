@@ -192,12 +192,14 @@ describe('APNS provider', function() {
       expect(provider._pushOptions).to.deep.equal({
         cert: objectMother.apnsDevCert(),
         key: objectMother.apnsDevKey(),
-        gateway: '127.0.0.1'
+        gateway: '127.0.0.1',
+        production: false,
       });
       expect(provider._feedbackOptions).to.deep.equal({
         cert: objectMother.apnsDevCert(),
         key: objectMother.apnsDevKey(),
-        gateway: 'feedback.sandbox.push.apple.com'
+        gateway: 'feedback.sandbox.push.apple.com',
+        production: false,
       });
       done();
     });
@@ -216,11 +218,13 @@ describe('APNS provider', function() {
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'push.test.com',
-        port: 1111
+        port: 1111,
+        production: false,
       });
       expect(provider._feedbackOptions).to.deep.equal({
         gateway: 'feedback.test.com',
-        port: 1112
+        port: 1112,
+        production: false,
       });
       done();
     });
@@ -238,11 +242,13 @@ describe('APNS provider', function() {
         }
       });
       expect(provider._pushOptions).to.deep.equal({
-        gateway: 'gateway.sandbox.push.apple.com'
+        gateway: 'gateway.sandbox.push.apple.com',
+        production: false,
       });
       expect(provider._feedbackOptions).to.deep.equal({
         gateway: 'feedback.sandbox.push.apple.com',
-        interval: 300
+        interval: 300,
+        production: false,
       });
       done();
     });
@@ -252,16 +258,19 @@ describe('APNS provider', function() {
           production: true,
           pushOptions: {},
           feedbackOptions: {
-            interval: 300
+            interval: 300,
+            production: false,
           }
         }
       });
       expect(provider._pushOptions).to.deep.equal({
-        gateway: 'gateway.push.apple.com'
+        gateway: 'gateway.push.apple.com',
+        production: true,
       });
       expect(provider._feedbackOptions).to.deep.equal({
         gateway: 'feedback.push.apple.com',
-        interval: 300
+        interval: 300,
+        production: true,
       });
       done();
     });
@@ -282,12 +291,14 @@ describe('APNS provider', function() {
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'gateway.push.apple.com',
-        port: 2195
+        port: 2195,
+        production: true,
       });
       expect(provider._feedbackOptions).to.deep.equal({
         gateway: 'feedback.push.apple.com',
         port: 2196,
-        interval: 300
+        interval: 300,
+        production: true,
       });
       done();
     });

@@ -174,11 +174,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-<<<<<<< HEAD
     expect(message.params.data).to.deep.equal({ alert: 'an-alert', badge: 1230001 });
-=======
-    expect(message.params.data).to.equal(undefined);
->>>>>>> 634d22f5ad9482546277977a96fc483d3c8715bf
   });
 
   it('ignores Notification properties null or undefined', function() {
